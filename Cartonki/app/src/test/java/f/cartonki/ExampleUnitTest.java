@@ -1,4 +1,4 @@
-package com.example.cartonki;
+package f.cartonki;
 
 import org.junit.Test;
 

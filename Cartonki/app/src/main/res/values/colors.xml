@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimary">#69779B</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="side_menu_background_color">#FFFFFF</color>
+    <color name="contentTextColor">#69779B</color>
+    <color name="contentBackgroundColor">#D7EAEA</color>
+    <color name="contentButtonColor">#9692AF</color>
+    <color name="contentButtonTextColor">#FFFFFF</color>
 </resources>
