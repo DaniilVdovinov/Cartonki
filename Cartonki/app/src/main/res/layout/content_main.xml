@@ -55,26 +55,29 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/decs_count_words" />
-
+    <!--
+            непонятно почему-то с этим не работает
+            app:egUsePieRotation="true"
+            app:egValueTextSize="36sp"
+            -->
     <Button
         android:id="@+id/button"
         android:layout_width="262dp"
         android:layout_height="82dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginBottom="144dp"
         android:background="@drawable/custom_main_page_button"
         android:text="@string/add_deck"
         android:textColor="@color/contentButtonTextColor"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/piechart" />
-    <!--
-        непонятно почему-то с этим не работает
-        app:egUsePieRotation="true"
-        app:egValueTextSize="36sp"
-        -->
+        app:layout_constraintTop_toBottomOf="@+id/piechart"
+        app:layout_constraintVertical_bias="1.0" />
+
 </android.support.constraint.ConstraintLayout>

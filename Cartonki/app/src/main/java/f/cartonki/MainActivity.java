@@ -12,8 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.TextureView;
-import android.widget.TextView;
+
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         // сторонняя библиотека для диаграммы на главной странице
@@ -51,6 +51,9 @@ public class MainActivity extends AppCompatActivity
         mPieChart.addPieSlice(new PieModel("Eating", 9, Color.parseColor("#FED70E")));
 
         mPieChart.startAnimation();
+
+        SwipeMenuListView listView = (SwipeMenuListView) findViewById(R.id.listView_decks_activity);
+
 
 
     }
@@ -93,7 +96,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if(id == R.id.to_decks){
-            setContentView(R.layout.decks_activity);
+            //setContentView(R.layout.decks_activity);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
