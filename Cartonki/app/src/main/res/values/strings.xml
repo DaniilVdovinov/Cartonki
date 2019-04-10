@@ -10,4 +10,7 @@
     <string name="action_add_deck">Добавить колоду</string>
     <string name="decs_count">Количество колод : </string>
     <string name="add_deck">Добавить колоду</string>
+    <string name="show_answer">Показать ответ</string>
+    <string name="right_answer">Правильный ответ</string>
+    <string name="wrong_answer">Неправильный ответ</string>
 </resources>

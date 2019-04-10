@@ -33,4 +33,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+
+    <style name="AppTheme.ButtonsStyle">
+
+        <item name="android:background">@drawable/custom_button</item>
+
+        <item name="android:textColor">@color/contentButtonTextColor</item>
+    </style>
 </resources>
