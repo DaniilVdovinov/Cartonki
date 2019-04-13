@@ -13,4 +13,5 @@
     <string name="show_answer">Показать ответ</string>
     <string name="right_answer">Правильный ответ</string>
     <string name="wrong_answer">Неправильный ответ</string>
+    <string name="title_activity_decks">DecksActivity</string>
 </resources>
