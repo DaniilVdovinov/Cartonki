@@ -1,6 +1,6 @@
-package die.mass.repositories;
+package f.repositories;
 
-import die.mass.models.Card;
+import f.models.Card;
 
 import java.sql.*;
 import java.time.Instant;
@@ -28,9 +28,10 @@ public class CardsRepositoryJdbcImpl implements CardsRepository {
         String question = row.getString("question");
         String answer = row.getString("answer");
         Integer period = row.getInt("period");
-        Instant instant = row.getTimestamp("date").toInstant();
+//        Instant instant = row.getTimestamp("date").toInstant();
         Integer pack = row.getInt("pack");
-        return new Card(id,question,answer,period,instant,pack);
+        return null;
+//        return new Card(id,question,answer,period,instant,pack);
     };
 
     @Override
@@ -41,7 +42,7 @@ public class CardsRepositoryJdbcImpl implements CardsRepository {
             statement.setString(1, card.getQuestion());
             statement.setString(2, card.getAnswer());
             statement.setInt(3, card.getPeriod());
-            statement.setTimestamp(4, Timestamp.from(card.getInstant()));
+//            statement.setTimestamp(4, Timestamp.from(card.getInstant()));
             statement.setInt(5, card.getPack());
             int affectedRows = statement.executeUpdate();
 
@@ -71,7 +72,7 @@ public class CardsRepositoryJdbcImpl implements CardsRepository {
             statement.setString(1, card.getQuestion());
             statement.setString(2, card.getAnswer());
             statement.setInt(3, card.getPeriod());
-            statement.setTimestamp(4, Timestamp.from(card.getInstant()));
+//            statement.setTimestamp(4, Timestamp.from(card.getInstant()));
             statement.setInt(5, card.getPack());
             statement.setLong(6,card.getId());
 
@@ -114,7 +115,8 @@ public class CardsRepositoryJdbcImpl implements CardsRepository {
         } catch (SQLException e) {
             throw new IllegalStateException(e);
         }
-        return Optional.ofNullable(card);
+        return null;
+//        return Optional.ofNullable(card);
     }
 
     @Override
@@ -137,6 +139,7 @@ public class CardsRepositoryJdbcImpl implements CardsRepository {
     @Override
     public Optional<Card> findOneByQuestion(String firstName) {
         // см. CardsRepository
-        return Optional.empty();
+        return null;
+//        return Optional.empty();
     }
 }

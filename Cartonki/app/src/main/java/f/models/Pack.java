@@ -1,4 +1,4 @@
-package die.mass.models;
+package f.models;
 
 import java.util.ArrayList;
 

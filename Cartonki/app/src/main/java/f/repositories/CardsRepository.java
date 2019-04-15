@@ -1,6 +1,6 @@
-package die.mass.repositories;
+package f.repositories;
 
-import die.mass.models.Card;
+import f.models.Card;
 
 import java.util.Optional;
 

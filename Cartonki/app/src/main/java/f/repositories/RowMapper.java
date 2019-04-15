@@ -1,4 +1,4 @@
-package die.mass.repositories;
+package f.repositories;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

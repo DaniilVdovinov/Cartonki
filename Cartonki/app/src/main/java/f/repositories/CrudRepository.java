@@ -1,4 +1,4 @@
-package die.mass.repositories;
+package f.repositories;
 
 import java.util.List;
 import java.util.Optional;

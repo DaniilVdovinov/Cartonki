@@ -1,14 +1,15 @@
-package die.mass;
+package f;
 
-import die.mass.models.Card;
-import die.mass.repositories.CardsRepository;
-import die.mass.repositories.CardsRepositoryJdbcImpl;
+import f.models.Card;
+import f.repositories.CardsRepository;
+import f.repositories.CardsRepositoryJdbcImpl;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
-import java.time.Instant;
-import java.util.Optional;
+
+//import java.time.Instant;
+//import java.util.Optional;
 import java.util.Properties;
 
 public class Main {
@@ -17,16 +18,17 @@ public class Main {
         Connection connection = addConnection();
 
         CardsRepository cardsRepository = new CardsRepositoryJdbcImpl(connection);
-        Optional<Card> cardCandidate = null;
-        cardCandidate = cardsRepository.find(45L);
+//        Optional<Card> cardCandidate = null;
+//        cardCandidate = cardsRepository.find(45L);
 
-        if (cardCandidate.isPresent()) {
-            System.out.println(cardCandidate.get());
-        } else {
-            System.err.println("В бд такого элемента нема"); //TODO: сделать чтобы в андроиде норм робило
-        }
+//        if (cardCandidate.isPresent()) {
+//            System.out.println(cardCandidate.get());
+//        } else {
+//            System.err.println("В бд такого элемента нема"); //TODO: сделать чтобы в андроиде норм робило
+//        }
 
-        cardsRepository.findAll().forEach(element -> System.out.println(element));
+
+//        cardsRepository.findAll().forEach(element -> System.out.println(element));
 //        cardsRepository.save(new Card(null,"","8",0,Instant.now(),2));
 //        cardsRepository.update(new Card(1L,"2","3",0,Instant.now(),1));
         cardsRepository.delete(45L);
