@@ -11,8 +11,8 @@
     <TextView
         android:id="@+id/decs_count_words"
         style="@style/AppTheme.Content"
-        android:layout_width="200dp"
-        android:layout_height="35dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -41,11 +41,10 @@
 
     <org.eazegraph.lib.charts.PieChart xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/piechart"
-        android:layout_width="353dp"
-        android:layout_height="307dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="56dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="@color/contentBackgroundColor"
@@ -54,7 +53,8 @@
         app:egLegendTextSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/decs_count_words" />
+        app:layout_constraintTop_toBottomOf="@+id/decs_count_words"
+        app:layout_constraintBottom_toTopOf="@id/add_deck_main_activity_button"/>
     <!--
             непонятно почему-то с этим не работает
             app:egUsePieRotation="true"
@@ -62,19 +62,14 @@
             -->
     <Button
         android:id="@+id/add_deck_main_activity_button"
-        android:layout_width="262dp"
-        android:layout_height="82dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="144dp"
         style="@style/AppTheme.ButtonsStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/add_deck"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/piechart"
         app:layout_constraintVertical_bias="1.0" />
