@@ -9,4 +9,5 @@
     <color name="contentButtonColor">#9692AF</color>
     <color name="contentButtonTextColor">#FFFFFF</color>
     <color name="card_color">#EAD5F7</color>
+    <color name="white">#FFFFFF</color>
 </resources>

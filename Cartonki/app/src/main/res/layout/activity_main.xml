@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     android:theme="@style/AppTheme.SideMenuOverlay">
 
-    <include layout="@layout/navigation_view"/>
+    <include layout="@layout/navigation_view" />
 
     <include
         layout="@layout/app_bar_main"

@@ -14,4 +14,13 @@
     <string name="right_answer">Правильный ответ</string>
     <string name="wrong_answer">Неправильный ответ</string>
     <string name="title_activity_decks">DecksActivity</string>
+    <string name="question">Вопрос</string>
+    <string name="answer">Ответ</string>
+    <string name="no_questions">Пока не добавили вопросов</string>
+    <string name="add_from_file">Добавить из файла</string>
+    <string name="choose_file">Выбрать файл</string>
+    <string name="choose_add_button">Добавить</string>
+    <string name="add">Добавление вручную</string>
+    <string name="reset_statistics">Сбросить статистику</string>
+    <string name="Theme">Настроить тему</string>
 </resources>
