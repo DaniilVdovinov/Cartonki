@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toStartOf="@layout/content_decks_activity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        e/>
+        />
 
 
     <include
