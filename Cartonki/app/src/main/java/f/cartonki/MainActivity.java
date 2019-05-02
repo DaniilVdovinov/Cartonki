@@ -116,6 +116,8 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(this, MainActivity.class));
             } else if (itemID == R.id.to_decks) {
                 startActivity(new Intent(this, DecksActivity.class));
+            } else if (itemID == R.id.to_settings) {
+                startActivity(new Intent(this, SettingsActivity.class));
             }
         }
         catch (Exception e)
