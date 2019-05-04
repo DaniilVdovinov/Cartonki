@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 
@@ -21,10 +22,11 @@ import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
+    Button addDeckChooseVariant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -67,8 +69,8 @@ public class MainActivity extends AppCompatActivity
 
         SwipeMenuListView listView = (SwipeMenuListView) findViewById(R.id.listView_decks_activity);
 
-
-
+        addDeckChooseVariant = (Button) findViewById(R.id.add_deck_main_activity_button);
+        addDeckChooseVariant.setOnClickListener(this);
     }
 
     @Override
@@ -110,7 +112,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void displaySelectedScreen(int itemID){
+    private void displaySelectedScreen(int itemID) {
         try {
             if (itemID == R.id.to_main_page) {
                 startActivity(new Intent(this, MainActivity.class));
@@ -118,10 +120,10 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(this, DecksActivity.class));
             } else if (itemID == R.id.to_settings) {
                 startActivity(new Intent(this, SettingsActivity.class));
+            } else if (itemID == R.id.add_deck_main_activity_button) {
+                startActivity(new Intent(this, AddDeckChooseVariantActivity.class));
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             throw new IllegalStateException(e);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -139,5 +141,11 @@ public class MainActivity extends AppCompatActivity
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         toggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        displaySelectedScreen(id);
     }
 }
