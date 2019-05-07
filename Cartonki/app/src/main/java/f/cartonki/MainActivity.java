@@ -1,7 +1,11 @@
 package f.cartonki;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,20 +15,29 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
+import java.io.IOException;
+
+import f.repositories.DBHelper;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
+    TextView text;
+    DBHelper dbHelper;
+    SQLiteDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +80,38 @@ public class MainActivity extends AppCompatActivity
 
         SwipeMenuListView listView = (SwipeMenuListView) findViewById(R.id.listView_decks_activity);
 
+// можно так
+        text = findViewById(R.id.decs_count_words);
+//        String s = getFromDB();
+//        text.setText(s);
 
+        //а можно так
+        Log.w("Я чекаю бд", "Бла бла бла" );
+        dbHelper = new DBHelper(this);
+        try {
+            dbHelper.updateDataBase();
+        } catch (IOException mIOException) {
+            throw new Error("Не удается обновить бд");
+        }
 
+        try {
+            database = dbHelper.getWritableDatabase();
+        } catch (SQLException mSQLException) {
+            throw mSQLException;
+        }
+//        int count = cursor.getCount();
+//        text.setText("a" + count);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+                ContentValues contentValues = new ContentValues(); //это потом когда добавлять в бд
+        contentValues.put(dbHelper.COLUMN_CARD_ANSWER,"aaaaa");
+        Log.d("Путь ", ""+database.insert(dbHelper.TABLE_CARD,dbHelper.COLUMN_CARD_ANSWER,contentValues));
+//        Cursor cursor = database.rawQuery("select * from " + dbHelper.TABLE_PACK, null);
+    }
+
 
     @Override
     public void onBackPressed() {
