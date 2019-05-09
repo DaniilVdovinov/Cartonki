@@ -3,6 +3,7 @@ package f.repositories;
 import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import f.cartonki.MainActivity;
@@ -30,32 +31,70 @@ public class PacksRepositoryJdbcImpl extends Application implements PacksReposit
             throw mSQLException;
         }
         ContentValues contentValues = new ContentValues();
-
-//        String categoryName = model.getName();
-        String categoryName = "Мат";
-// Сначала вставляем данные в таблицу категорий.
-        contentValues.put (dbHelper.COLUMN_PACK_NAME, categoryName);
+        contentValues.put (dbHelper.COLUMN_PACK_NAME, model.getName());
         database.insert (dbHelper.TABLE_PACK, null, contentValues);
         database.close();
     }
 
     @Override
-    public void update(Pack model) {
-
+    public void update(Pack model, Context context) {
+        dbHelper = new DBHelper(context);
+        SQLiteDatabase database;
+        try {
+            database = dbHelper.getWritableDatabase();
+        } catch (SQLException mSQLException) {
+            throw mSQLException;
+        }
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(dbHelper.COLUMN_PACK_NAME, model.getName());
+        database.update(dbHelper.TABLE_PACK, contentValues," " + dbHelper.COLUMN_ID + " = " + model.getId(),
+                null);
+        database.close();
     }
 
     @Override
-    public void delete(Long aLong) {
-
+    public void delete(Long id, Context context) {
+        dbHelper = new DBHelper(context);
+        SQLiteDatabase database;
+        try {
+            database = dbHelper.getWritableDatabase();
+        } catch (SQLException mSQLException) {
+            throw mSQLException;
+        }
+        database.delete(dbHelper.TABLE_PACK," " + dbHelper.COLUMN_ID + " = " + id, null);
     }
 
     @Override
-    public Pack find(Long aLong) {
-        return null;
+    public Pack find(Long id, Context context) {
+        dbHelper = new DBHelper(context);
+        SQLiteDatabase database;
+        try {
+            database = dbHelper.getWritableDatabase();
+        } catch (SQLException mSQLException) {
+            throw mSQLException;
+        }
+        Cursor cursor = database.query(dbHelper.TABLE_PACK, null, dbHelper.COLUMN_ID + " = "  + id, null, null, null, null);
+        if(!cursor.isNull(1)) {
+            return new Pack(cursor.getInt(1),cursor.getString(2));
+        }
+        return new Pack();
     }
 
     @Override
-    public List<Pack> findAll() {
-        return null;
+    public ArrayList<Pack> findAll(Context context) {
+        dbHelper = new DBHelper(context);
+        SQLiteDatabase database;
+        try {
+            database = dbHelper.getWritableDatabase();
+        } catch (SQLException mSQLException) {
+            throw mSQLException;
+        }
+        Cursor cursor = database.query(dbHelper.TABLE_PACK, null, null, null, null, null, null);
+        ArrayList<Pack> list = new ArrayList<>();
+        while(cursor.moveToNext()) {
+            Pack pack = new Pack(cursor.getInt(1),cursor.getString(2));
+            list.add(pack);
+        }
+        return list;
     }
 }

@@ -10,6 +10,11 @@ public class Pack {
     public Pack() {
     }
 
+    public Pack(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Pack(int id) {
         this.id = id;
     }
