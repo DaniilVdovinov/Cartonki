@@ -39,6 +39,7 @@ dependencies {
     implementation('com.baoyz.swipemenulistview:library:1.3.0', {
         exclude group: 'com.android.support'
     })
+    implementation 'org.jetbrains:annotations:15.0'
 
 
 }

@@ -28,6 +28,8 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import f.models.Card;
+import f.models.Pack;
+import f.repositories.PacksRepositoryJdbcImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +39,7 @@ public class DecksActivity extends AppCompatActivity implements NavigationView.O
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
 
-    private List<String> mAppList;
+    private List<Pack> mAppList;
     private AppAdapter mAdapter;
     private SwipeMenuListView mListView;
 
@@ -73,19 +75,8 @@ public class DecksActivity extends AppCompatActivity implements NavigationView.O
 //        DBHelper dbHelper = new DBHelper();
 
 //        mAppList = dbHelper.getCardsRepository().findAll();
-        mAppList = new ArrayList<>();
-        mAppList.add("Раз колода");
-        mAppList.add("Два колода");
-        mAppList.add("Три колода");
-        mAppList.add("Три колода");
-        mAppList.add("Три колода");
-        mAppList.add("Три колода");
-        mAppList.add("Три колода");
-        mAppList.add("Три колода");
-        mAppList.add("Три колода");
-        mAppList.add("Три колода");
-        mAppList.add("Три колода");
-        mAppList.add("Три колода");
+        PacksRepositoryJdbcImpl packsRepositoryJdbc = new PacksRepositoryJdbcImpl();
+        mAppList = packsRepositoryJdbc.findAll(this);
 
         mListView = (SwipeMenuListView) findViewById(R.id.listView_decks_activity);
 
@@ -287,7 +278,7 @@ public class DecksActivity extends AppCompatActivity implements NavigationView.O
 
         @Override
         public String getItem(int position) {
-            return mAppList.get(position);
+            return mAppList.get(position).getName();
         }
 
         @Override

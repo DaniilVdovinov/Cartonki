@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="f.cartonki.ExampleUnitTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-05-08T18:34:35" hostname="DESKTOP-C4Q22O6" time="0.001">
+  <properties/>
+  <testcase name="addition_isCorrect" classname="f.cartonki.ExampleUnitTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

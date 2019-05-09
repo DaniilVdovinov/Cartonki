@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal">
+<<<<<<< HEAD
     <data-source name="cards@localhost" uuid="beb89485-b3e5-4de4-bd88-1fceb443bd5e">
       <database-info product="PostgreSQL" version="9.6.12" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.2" dbms="POSTGRES" exact-version="9.6.12" exact-driver-version="42.2">
         <identifier-quote-string>&quot;</identifier-quote-string>
@@ -9,6 +10,12 @@
       <secret-storage>master_key</secret-storage>
       <user-name>postgres</user-name>
       <introspection-schemas>@:@</introspection-schemas>
+=======
+    <data-source name="cartonki" uuid="1fba8a38-200e-47fd-b928-1c6ec94abfac">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="SQLITE" exact-version="0" />
+      <auth-required>false</auth-required>
+      <introspection-schemas>*:</introspection-schemas>
+>>>>>>> 5efe8fa6af918dcef076d4bd7fedae93b88377c4
     </data-source>
   </component>
 </project>

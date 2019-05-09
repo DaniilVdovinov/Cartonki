@@ -4,13 +4,31 @@ import java.util.ArrayList;
 
 public class Pack {
     private int id;
+    private String name;
     private ArrayList<Card> cards = new ArrayList<>();    //TODO: Set for random access
 
     public Pack() {
     }
 
+    public Pack(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Pack(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Pack(String name) {
+        this.name = name;
     }
 
     public Pack(int id, ArrayList<Card> cards) {

@@ -1,0 +1,7 @@
+#Internal package file, do not edit.
+#Wed May 08 21:51:56 MSK 2019
+0.baseType=DIRECTORY
+0.base=C\:\\Users\\pc\\Desktop\\Cartonki\\Cartonki\\app\\build\\intermediates\\merged_assets\\debug\\mergeDebugAssets\\out
+0.path=cartonki.db
+0.set=ASSET
+count=1

@@ -6,17 +6,16 @@ public class Card {
     private Long id;
     private String question;
     private String answer;
-    private Integer period;
-    private Instant instant;
     private Integer pack;
+    private Boolean done;
 
-    public Card(Long id, String question, String answer,
-                Integer period, Instant instant, Integer pack) {
+    public Card() {}
+
+    public Card(Long id, String question, String answer, Boolean done, Integer pack) {
         this.id = id;
         this.question = question;
         this.answer = answer;
-        this.period = period;
-        this.instant = instant;
+        this.done = done;
         this.pack = pack;
     }
 
@@ -44,22 +43,6 @@ public class Card {
         this.answer = answer;
     }
 
-    public Integer getPeriod() {
-        return period;
-    }
-
-    public void setPeriod(Integer period) {
-        this.period = period;
-    }
-
-    public Instant getInstant() {
-        return instant;
-    }
-
-    public void setInstant(Instant instant) {
-        this.instant = instant;
-    }
-
     public Integer getPack() {
         return pack;
     }
@@ -68,14 +51,20 @@ public class Card {
         this.pack = pack;
     }
 
+    public Boolean getDone() {
+        return done;
+    }
+
+    public void setDone(Boolean done) {
+        this.done = done;
+    }
+
     @Override
     public String toString() {
         return "Card{" +
                 "id=" + id +
                 ", question='" + question + '\'' +
                 ", answer='" + answer + '\'' +
-                ", period=" + period +
-                ", instant=" + instant +
                 ", pack=" + pack +
                 '}';
     }

@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+<<<<<<< HEAD
     <data-source source="LOCAL" name="cards@localhost" uuid="beb89485-b3e5-4de4-bd88-1fceb443bd5e">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/postgres</jdbc-url>
+=======
+    <data-source source="LOCAL" name="cartonki" uuid="1fba8a38-200e-47fd-b928-1c6ec94abfac">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\pc\Desktop\Cartonki\Cartonki\app\src\main\assets\cartonki.db</jdbc-url>
+      <driver-properties>
+        <property name="enable_load_extension" value="true" />
+      </driver-properties>
+>>>>>>> 5efe8fa6af918dcef076d4bd7fedae93b88377c4
     </data-source>
   </component>
 </project>
