@@ -2,9 +2,8 @@ package f.repositories;
 
 import f.models.Card;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface CardsRepository extends CrudRepository<Card, Long> {
-    Optional<Card> findOneByQuestion(String question);
-    //оставил в качестве примера для других методов
+    List<Card> findAllInPack(Long id);
 }

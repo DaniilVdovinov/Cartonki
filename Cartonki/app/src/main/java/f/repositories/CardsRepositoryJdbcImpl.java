@@ -1,12 +1,13 @@
 package f.repositories;
 
+import android.content.Context;
+import f.cartonki.MainActivity;
 import f.models.Card;
+import f.models.Pack;
 
 import java.sql.*;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class CardsRepositoryJdbcImpl implements CardsRepository {
 
@@ -35,7 +36,7 @@ public class CardsRepositoryJdbcImpl implements CardsRepository {
     };
 
     @Override
-    public void save(Card card) {
+    public void save(Card card, Context context) {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT_USER,
                     Statement.RETURN_GENERATED_KEYS);
@@ -102,7 +103,7 @@ public class CardsRepositoryJdbcImpl implements CardsRepository {
     }
 
     @Override
-    public Optional<Card> find(Long id) {
+    public Card find(Long id) {
         Card card = null;
         try {
             Statement statement = connection.createStatement();
@@ -136,10 +137,10 @@ public class CardsRepositoryJdbcImpl implements CardsRepository {
         return result;
     }
 
+
+
     @Override
-    public Optional<Card> findOneByQuestion(String firstName) {
-        // см. CardsRepository
+    public List<Card> findAllInPack(Long id) {
         return null;
-//        return Optional.empty();
     }
 }

@@ -23,6 +23,8 @@ import android.widget.TextView;
 
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 
+import f.models.Pack;
+import f.repositories.PacksRepositoryJdbcImpl;
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -86,7 +88,7 @@ public class MainActivity extends AppCompatActivity
 //        text.setText(s);
 
         //а можно так
-        Log.w("Я чекаю бд", "Бла бла бла" );
+        Log.w("Я чекаю бд", "Бла бла бла");
         dbHelper = new DBHelper(this);
         try {
             dbHelper.updateDataBase();
@@ -106,10 +108,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-                ContentValues contentValues = new ContentValues(); //это потом когда добавлять в бд
-        contentValues.put(dbHelper.COLUMN_CARD_ANSWER,"aaaaa");
-        Log.d("Путь ", ""+database.insert(dbHelper.TABLE_CARD,dbHelper.COLUMN_CARD_ANSWER,contentValues));
-//        Cursor cursor = database.rawQuery("select * from " + dbHelper.TABLE_PACK, null);
+        Cursor cursor = database.rawQuery("select * from " + dbHelper.TABLE_PACK, null);
+        Log.d("Кол-во ", "" + cursor.getCount());
+        PacksRepositoryJdbcImpl packsRepositoryJdbc = new PacksRepositoryJdbcImpl();
+        Pack pack = new Pack("Матан");
+        packsRepositoryJdbc.save(pack, this);
+        Log.d("Кол-во ", "" + cursor.getCount());
+
     }
 
 
@@ -152,16 +157,14 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void displaySelectedScreen(int itemID){
+    private void displaySelectedScreen(int itemID) {
         try {
             if (itemID == R.id.to_main_page) {
                 startActivity(new Intent(this, MainActivity.class));
             } else if (itemID == R.id.to_decks) {
                 startActivity(new Intent(this, DecksActivity.class));
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             throw new IllegalStateException(e);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
