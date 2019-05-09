@@ -81,7 +81,7 @@ public class CardsRepositoryJdbcImpl implements CardsRepository {
         if (!cursor.isNull(1)) {
             return new Card(cursor.getLong(1), cursor.getString(2),
                     cursor.getString(3),
-                    new Byte(cursor.getBlob(4)[0]).equals(1), cursor.getInt(5));
+                    (Integer.valueOf(cursor.getInt(3))).equals(1), cursor.getInt(5));
         }
         return new Card();
     }
@@ -100,7 +100,7 @@ public class CardsRepositoryJdbcImpl implements CardsRepository {
         while (cursor.moveToNext()) {
             Card card = new Card(cursor.getLong(0), cursor.getString(1),
                     cursor.getString(2),
-                    (new Byte(cursor.getBlob(3)[0])).equals(1), cursor.getInt(4));
+                    (Integer.valueOf(cursor.getInt(3))).equals(1), cursor.getInt(4));
             list.add(card);
         }
         return list;
@@ -124,7 +124,7 @@ public class CardsRepositoryJdbcImpl implements CardsRepository {
         while (cursor.moveToNext()) {
             Card card = new Card(cursor.getLong(0), cursor.getString(1),
                     cursor.getString(2),
-                    new Byte(cursor.getBlob(3)[0]).equals(1), cursor.getInt(4));
+                    (Integer.valueOf(cursor.getInt(3))).equals(1), cursor.getInt(4));
             list.add(card);
         }
         return list;
