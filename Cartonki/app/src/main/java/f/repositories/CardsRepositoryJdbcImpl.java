@@ -16,29 +16,7 @@ import java.util.List;
 
 public class CardsRepositoryJdbcImpl implements CardsRepository {
 
-    private Connection connection;
-
     private DBHelper dbHelper;
-
-    //language=SQL
-    private final String SQL_INSERT_USER = "insert into " +
-            "card (question, answer, pack) values (?, ?, ?);";
-    //language=SQL
-    private final String SQL_UPDATE_USER = "update card set " +
-            "(question, answer, pack) = (?, ?, ?) where id = ?;";
-
-    public CardsRepositoryJdbcImpl(Connection connection) {
-        this.connection = connection;
-    }
-
-    private RowMapper<Card> userRowMapper = row -> {
-        Long id = row.getLong("id");
-        String question = row.getString("question");
-        String answer = row.getString("answer");
-        Integer pack = row.getInt("pack");
-        return null;
-//        return new Card(id,question,answer,period,instant,pack);
-    };
 
     @Override
     public void save(Card model, Context context) {

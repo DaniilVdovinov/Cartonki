@@ -23,7 +23,9 @@ import android.widget.TextView;
 
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 
+import f.models.Card;
 import f.models.Pack;
+import f.repositories.CardsRepositoryJdbcImpl;
 import f.repositories.PacksRepositoryJdbcImpl;
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
@@ -108,11 +110,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        Cursor cursor = database.rawQuery("select * from " + dbHelper.TABLE_PACK, null);
+        Cursor cursor = database.rawQuery("select * from " + dbHelper.TABLE_CARD, null);
         Log.d("Кол-во ", "" + cursor.getCount());
-        PacksRepositoryJdbcImpl packsRepositoryJdbc = new PacksRepositoryJdbcImpl();
-        Pack pack = new Pack("Матан");
-        packsRepositoryJdbc.save(pack, this);
+//        PacksRepositoryJdbcImpl packsRepositoryJdbc = new PacksRepositoryJdbcImpl();
+//        Pack pack = new Pack("Матан");
+//        packsRepositoryJdbc.save(pack, this);
+        CardsRepositoryJdbcImpl cardsRepositoryJdbc = new CardsRepositoryJdbcImpl();
+        Card card = new Card(null, "nose", "нос", false, 2);
+        cardsRepositoryJdbc.save(card, this);
         Log.d("Кол-во ", "" + cursor.getCount());
 
     }

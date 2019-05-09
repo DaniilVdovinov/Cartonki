@@ -19,7 +19,7 @@ import java.io.OutputStream;
 public class DBHelper extends SQLiteOpenHelper {
     public static String DB_NAME = "cartonki.db";
     public static String DB_PATH = "";
-    public static final int DB_VERSION = 2;
+    public static final int DB_VERSION = 3;
     // название таблиц в бд
     public static final String TABLE_CARD = "card";
     public static final String TABLE_PACK = "pack";

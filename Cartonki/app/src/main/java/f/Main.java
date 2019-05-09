@@ -33,7 +33,7 @@ public class Main {
     public static void main(String[] args) {
         Connection connection = addConnection();
 
-        CardsRepository cardsRepository = new CardsRepositoryJdbcImpl(connection);
+        CardsRepository cardsRepository = new CardsRepositoryJdbcImpl();
     }
 
     private static Connection addConnection() {
