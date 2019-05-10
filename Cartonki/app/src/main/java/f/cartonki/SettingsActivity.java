@@ -2,22 +2,22 @@ package f.cartonki;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class DecksActivity extends AppCompatActivity
+
+
+public class SettingsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawer;
@@ -25,12 +25,12 @@ public class DecksActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.decks_activity);
+        setContentView(R.layout.activity_settings);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_decks);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.settings_toolbar);
         setSupportActionBar(toolbar);
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_decks);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_settings);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
             @Override
@@ -53,7 +53,7 @@ public class DecksActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_decks);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_settings);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -103,7 +103,7 @@ public class DecksActivity extends AppCompatActivity
         {
             throw new IllegalStateException(e);
         }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_decks);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_settings);
         drawer.closeDrawer(GravityCompat.START);
     }
 

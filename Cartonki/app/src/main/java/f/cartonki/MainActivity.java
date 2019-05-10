@@ -35,7 +35,7 @@ import java.io.IOException;
 import f.repositories.DBHelper;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
@@ -119,7 +119,6 @@ public class MainActivity extends AppCompatActivity
         Card card = new Card(null, "nose", "нос", false, 2);
         cardsRepositoryJdbc.save(card, this);
         Log.d("Кол-во ", "" + cursor.getCount());
-
     }
 
 
@@ -168,6 +167,10 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(this, MainActivity.class));
             } else if (itemID == R.id.to_decks) {
                 startActivity(new Intent(this, DecksActivity.class));
+            } else if (itemID == R.id.to_settings) {
+                startActivity(new Intent(this, SettingsActivity.class));
+            } else if (itemID == R.id.add_deck_main_activity_button) {
+                startActivity(new Intent(this, AddDeckChooseVariantActivity.class));
             }
         } catch (Exception e) {
             throw new IllegalStateException(e);
@@ -187,5 +190,11 @@ public class MainActivity extends AppCompatActivity
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         toggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        displaySelectedScreen(id);
     }
 }
