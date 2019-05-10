@@ -14,6 +14,7 @@
     <string name="right_answer">Правильный ответ</string>
     <string name="wrong_answer">Неправильный ответ</string>
     <string name="title_activity_decks">DecksActivity</string>
+    <string name="title_activity_settings">SettingActivity</string>
     <string name="question">Вопрос</string>
     <string name="answer">Ответ</string>
     <string name="no_questions">Пока не добавили вопросов</string>

@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.baoyz.swipemenulistview.SwipeMenuListView;
@@ -35,13 +36,14 @@ import java.io.IOException;
 import f.repositories.DBHelper;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
     TextView text;
     DBHelper dbHelper;
     SQLiteDatabase database;
+    Button addDeckChooseVariant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +107,8 @@ public class MainActivity extends AppCompatActivity
 
         SwipeMenuListView listView = (SwipeMenuListView) findViewById(R.id.listView_decks_activity);
 
-
+        addDeckChooseVariant = (Button) findViewById(R.id.add_deck_main_activity_button);
+        addDeckChooseVariant.setOnClickListener(this);
     }
 
     @Override
@@ -120,7 +123,6 @@ public class MainActivity extends AppCompatActivity
 //        Card card = new Card(null, "nose", "нос", false, 2);
 //        cardsRepositoryJdbc.save(card, this);
 //        Log.d("Кол-во ", "" + cursor.getCount());
-
     }
 
 
@@ -169,6 +171,10 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(this, MainActivity.class));
             } else if (itemID == R.id.to_decks) {
                 startActivity(new Intent(this, DecksActivity.class));
+            } else if (itemID == R.id.to_settings) {
+                startActivity(new Intent(this, SettingsActivity.class));
+            } else if (itemID == R.id.add_deck_main_activity_button) {
+                startActivity(new Intent(this, AddDeckChooseVariantActivity.class));
             }
         } catch (Exception e) {
             throw new IllegalStateException(e);
@@ -188,5 +194,11 @@ public class MainActivity extends AppCompatActivity
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         toggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        displaySelectedScreen(id);
     }
 }

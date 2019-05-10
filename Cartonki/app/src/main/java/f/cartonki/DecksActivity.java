@@ -34,7 +34,8 @@ import f.repositories.PacksRepositoryJdbcImpl;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DecksActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class DecksActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
@@ -173,7 +174,7 @@ public class DecksActivity extends AppCompatActivity implements NavigationView.O
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_decks);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -215,6 +216,8 @@ public class DecksActivity extends AppCompatActivity implements NavigationView.O
                 startActivity(new Intent(this, MainActivity.class));
             } else if (itemID == R.id.to_decks) {
                 startActivity(new Intent(this, DecksActivity.class));
+            } else if (itemID == R.id.to_settings) {
+                startActivity(new Intent(this, SettingsActivity.class));
             }
         }
         catch (Exception e)
