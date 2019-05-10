@@ -10,11 +10,14 @@
     <string name="action_add_deck">Добавить колоду</string>
     <string name="decs_count">Количество колод : </string>
     <string name="add_deck">Добавить колоду</string>
+    <string name="add_card">Добавить карточку</string>
     <string name="show_answer">Показать ответ</string>
     <string name="right_answer">Правильный ответ</string>
     <string name="wrong_answer">Неправильный ответ</string>
-    <string name="title_activity_decks">DecksActivity</string>
-    <string name="title_activity_settings">SettingActivity</string>
+    <string name="title_activity_decks">Колоды</string>
+    <string name="title_activity_test">Тест</string>
+    <string name="title_activity_add_cards">Список карточек</string>
+    <string name="title_activity_settings">Настройки</string>
     <string name="question">Вопрос</string>
     <string name="answer">Ответ</string>
     <string name="no_questions">Пока не добавили вопросов</string>

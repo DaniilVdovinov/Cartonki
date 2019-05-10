@@ -1,6 +1,5 @@
 package f.cartonki;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -8,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,39 +20,41 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
-
 import f.models.Card;
-import f.models.Pack;
+import f.repositories.CardsRepository;
 import f.repositories.CardsRepositoryJdbcImpl;
-import f.repositories.PacksRepositoryJdbcImpl;
+import f.repositories.DBHelper;
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
 import java.io.IOException;
+import java.util.List;
 
-import f.repositories.DBHelper;
-
-public class MainActivity extends AppCompatActivity
+public class TestActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
-    TextView text;
-    DBHelper dbHelper;
-    SQLiteDatabase database;
-    Button addDeckChooseVariant;
+    Long deckId;
+    TextView question, answer;
+    Button showAnswer, rightAnswer, wrongAnswer;
+    LinearLayout linearLayout1, linearLayout2;
+    Card card;
+    CardsRepository cardsRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        setContentView(R.layout.activity_test);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_test);
         setSupportActionBar(toolbar);
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_test);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
@@ -72,68 +74,54 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
 
-        // сторонняя библиотека для диаграммы на главной странице
-        // только пример использования
-        // https://github.com/blackfizz/EazeGraph
+        Intent intent = getIntent();
+        deckId = intent.getLongExtra("deckId", 0);
+        Log.d("Колода: ", deckId + "");
 
+        cardsRepository = new CardsRepositoryJdbcImpl();
+        question = findViewById(R.id.question_text);
+        answer = findViewById(R.id.answer_text);
+        card = cardsRepository.findNewCard(deckId,this);
 
-        dbHelper = new DBHelper(this);
-        try {
-            dbHelper.updateDataBase();
-        } catch (IOException mIOException) {
-            throw new Error("Не удается обновить бд");
+        showAnswer = findViewById(R.id.show_answer);
+        showAnswer.setOnClickListener(this);
+
+        if(card == null){
+            question.setText("Все вопросы разобраны");
+            showAnswer.setText("Сбросить статистику колоды");
+            showAnswer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CardsRepositoryJdbcImpl cardsRepositoryJdbc = new CardsRepositoryJdbcImpl();
+                    List<Card> cards_done = cardsRepositoryJdbc.findDoneInPack(deckId,TestActivity.this);
+                    for (Card card:cards_done
+                    ) {
+                        card.setDone(0);
+                        cardsRepositoryJdbc.update(card, TestActivity.this);
+                    }
+                    Toast.makeText(TestActivity.this, "Успешно!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(TestActivity.this, TestActivity.class);
+                    intent.putExtra("deckId", deckId);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            question.setText(card.getQuestion());
         }
 
-        try {
-            database = dbHelper.getWritableDatabase();
-        } catch (SQLException mSQLException) {
-            throw mSQLException;
-        }
-        Cursor cursor = database.rawQuery("select * from " + dbHelper.TABLE_PACK, null);
-        text = findViewById(R.id.decs_count);
-        text.setText(String.valueOf(cursor.getCount()));
+        rightAnswer = findViewById(R.id.right_answer);
+        rightAnswer.setOnClickListener(this);
 
-        PieChart mPieChart = (PieChart) findViewById(R.id.piechart);
-        cursor = database.rawQuery("select * from " + dbHelper.TABLE_CARD + " where done = 0", null);
-        Log.d("Кол-во ", "" + cursor.getCount());
-        mPieChart.addPieSlice(new PieModel("Freetime", cursor.getCount(), Color.parseColor("#FE6DA8")));
-        cursor = database.rawQuery("select * from " + dbHelper.TABLE_CARD + " where done = 1", null);
-        Log.d("Кол-во ", "" + cursor.getCount());
-        mPieChart.addPieSlice(new PieModel("Sleep", cursor.getCount(), Color.parseColor("#56B7F1")));
+        wrongAnswer = findViewById(R.id.wrong_answer);
+        wrongAnswer.setOnClickListener(this);
 
-        mPieChart.startAnimation();
-
-        SwipeMenuListView listView = (SwipeMenuListView) findViewById(R.id.listView_decks_activity);
-
-        addDeckChooseVariant = (Button) findViewById(R.id.add_deck_main_activity_button);
-        addDeckChooseVariant.setOnClickListener(this);
-
-        cursor = database.rawQuery("select * from " + dbHelper.TABLE_PACK, null);
-        Log.d("Кол-во колод", "" + cursor.getCount());
-
+        linearLayout1 = findViewById(R.id.question_view);
+        linearLayout2 = findViewById(R.id.answer_view);
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        CardsRepositoryJdbcImpl cardsRepositoryJdbc = new CardsRepositoryJdbcImpl();
-//        Card card = cardsRepositoryJdbc.findNewCard(2L,this);
-//        Log.d("Кол-во записей ",cardsRepositoryJdbc.findAllInPack(2L, this).size()+"");
-//        PacksRepositoryJdbcImpl packsRepositoryJdbc = new PacksRepositoryJdbcImpl();
-//        packsRepositoryJdbc.findByName("Английский", this);
-//        Pack pack = new Pack("Матан");
-//        packsRepositoryJdbc.save(pack, this);
-//        CardsRepositoryJdbcImpl cardsRepositoryJdbc = new CardsRepositoryJdbcImpl();
-//        Card card = new Card(null, "nose", "нос", false, 2);
-//        cardsRepositoryJdbc.save(card, this);
-//        Log.d("Кол-во ", "" + cursor.getCount());
-    }
-
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_test);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -163,9 +151,8 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         displaySelectedScreen(item.getItemId());
         return true;
     }
@@ -178,14 +165,32 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(this, DecksActivity.class));
             } else if (itemID == R.id.to_settings) {
                 startActivity(new Intent(this, SettingsActivity.class));
-            } else if (itemID == R.id.add_deck_main_activity_button) {
-                startActivity(new Intent(this, AddDeckChooseVariantActivity.class));
+            } else if (itemID == R.id.show_answer){
+                linearLayout1.setVisibility(View.INVISIBLE);
+                linearLayout2.setVisibility(View.VISIBLE);
+                showAnswerLayout();
+            } else if (itemID == R.id.right_answer){
+                card.setDone(1);
+                cardsRepository.update(card,this);
+                Intent intent = new Intent(this, TestActivity.class);
+                intent.putExtra("deckId", deckId);
+                startActivity(intent);
+            } else if (itemID == R.id.wrong_answer){
+                cardsRepository.delete(card.getId(), this);
+                cardsRepository.save(card, this);
+                Intent intent = new Intent(this, TestActivity.class);
+                intent.putExtra("deckId", deckId);
+                startActivity(intent);
             }
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_test);
         drawer.closeDrawer(GravityCompat.START);
+    }
+
+    private void showAnswerLayout() {
+        answer.setText(card.getAnswer());
     }
 
 

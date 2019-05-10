@@ -17,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,7 +56,7 @@ public class DecksActivity extends AppCompatActivity
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_decks);
         toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -115,14 +116,13 @@ public class DecksActivity extends AppCompatActivity
         mListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-//                ApplicationInfo item = mAppList.get(position);
+                Pack item = mAppList.get(position);
                 switch (index) {
                     case 0:
-//                        edit(item);
+                        edit(item);
                         break;
                     case 1:
-                        // delete
-//					delete(item);
+                        delete(item);
                         mAppList.remove(position);
                         mAdapter.notifyDataSetChanged();
                         break;
@@ -210,7 +210,7 @@ public class DecksActivity extends AppCompatActivity
         return true;
     }
 
-    private void displaySelectedScreen(int itemID){
+    private void displaySelectedScreen(int itemID) {
         try {
             if (itemID == R.id.to_main_page) {
                 startActivity(new Intent(this, MainActivity.class));
@@ -219,13 +219,11 @@ public class DecksActivity extends AppCompatActivity
             } else if (itemID == R.id.to_settings) {
                 startActivity(new Intent(this, SettingsActivity.class));
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             throw new IllegalStateException(e);
         }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_decks);
-        drawer.closeDrawer(GravityCompat.START);
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_decks);
+//        drawer.closeDrawer(GravityCompat.START);
     }
 
     @Override
@@ -240,36 +238,15 @@ public class DecksActivity extends AppCompatActivity
         toggle.onConfigurationChanged(newConfig);
     }
 
-    private void delete(ApplicationInfo item) {
-        // delete app
-        try {
-            Intent intent = new Intent(Intent.ACTION_DELETE);
-            intent.setData(Uri.fromParts("package", item.packageName, null));
-            startActivity(intent);
-        } catch (Exception e) {
-        }
+    private void delete(Pack item) {
+        PacksRepositoryJdbcImpl packsRepositoryJdbc = new PacksRepositoryJdbcImpl();
+        packsRepositoryJdbc.delete(item.getId(), this);
     }
 
-    private void edit(ApplicationInfo item) {
-        // edit app
-        Intent resolveIntent = new Intent(Intent.ACTION_MAIN, null);
-        resolveIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        resolveIntent.setPackage(item.packageName);
-        List<ResolveInfo> resolveInfoList = getPackageManager()
-                .queryIntentActivities(resolveIntent, 0);
-        if (resolveInfoList != null && resolveInfoList.size() > 0) {
-            ResolveInfo resolveInfo = resolveInfoList.get(0);
-            String activityPackageName = resolveInfo.activityInfo.packageName;
-            String className = resolveInfo.activityInfo.name;
-
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_LAUNCHER);
-            ComponentName componentName = new ComponentName(
-                    activityPackageName, className);
-
-            intent.setComponent(componentName);
-            startActivity(intent);
-        }
+    private void edit(Pack item) {
+        Intent intent = new Intent(this, AddCradsActivity.class);
+        intent.putExtra("deckId", item.getId());
+        startActivity(intent);
     }
 
     class AppAdapter extends BaseAdapter {
@@ -309,7 +286,9 @@ public class DecksActivity extends AppCompatActivity
             holder.tv_name.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(DecksActivity.this,"iv_icon_click", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(DecksActivity.this, TestActivity.class);
+                    intent.putExtra("deckId", mAppList.get(position).getId());
+                    startActivity(intent);
                 }
             });
             return convertView;

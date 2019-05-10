@@ -14,14 +14,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+import f.models.Card;
+import f.repositories.CardsRepositoryJdbcImpl;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class SettingsActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
+    Button reset;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +56,9 @@ public class SettingsActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
+
+        reset = findViewById(R.id.reset_statistics_button);
+        reset.setOnClickListener(this);
     }
 
     @Override
@@ -97,6 +107,8 @@ public class SettingsActivity extends AppCompatActivity
                 startActivity(new Intent(this, DecksActivity.class));
             } else if (itemID == R.id.to_settings) {
                 startActivity(new Intent(this, SettingsActivity.class));
+            } else if (itemID == R.id.reset_statistics_button) {
+               reset_statistic();
             }
         }
         catch (Exception e)
@@ -105,6 +117,17 @@ public class SettingsActivity extends AppCompatActivity
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_settings);
         drawer.closeDrawer(GravityCompat.START);
+    }
+
+    private void reset_statistic() {
+        CardsRepositoryJdbcImpl cardsRepositoryJdbc = new CardsRepositoryJdbcImpl();
+        List<Card> cards_done = cardsRepositoryJdbc.findDone(this);
+        for (Card card:cards_done
+             ) {
+            card.setDone(0);
+            cardsRepositoryJdbc.update(card, this);
+        }
+        Toast.makeText(SettingsActivity.this, "Успешно!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -117,5 +140,11 @@ public class SettingsActivity extends AppCompatActivity
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         toggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        displaySelectedScreen(id);
     }
 }

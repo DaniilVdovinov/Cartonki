@@ -1,17 +1,15 @@
 package f.models;
 
-import java.time.Instant;
-
 public class Card {
     private Long id;
     private String question;
     private String answer;
-    private Integer pack;
-    private Boolean done;
+    private Long pack;
+    private Integer done;
 
     public Card() {}
 
-    public Card(Long id, String question, String answer, Boolean done, Integer pack) {
+    public Card(Long id, String question, String answer, Integer done, Long pack) {
         this.id = id;
         this.question = question;
         this.answer = answer;
@@ -43,19 +41,19 @@ public class Card {
         this.answer = answer;
     }
 
-    public Integer getPack() {
+    public Long getPack() {
         return pack;
     }
 
-    public void setPack(Integer pack) {
+    public void setPack(Long pack) {
         this.pack = pack;
     }
 
-    public Boolean getDone() {
+    public Integer getDone() {
         return done;
     }
 
-    public void setDone(Boolean done) {
+    public void setDone(Integer done) {
         this.done = done;
     }
 

@@ -6,7 +6,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import f.cartonki.MainActivity;
+import f.models.Card;
 import f.models.Pack;
 
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ public class PacksRepositoryJdbcImpl extends Application implements PacksReposit
     }
 
     @Override
-    public void save(Pack model, Context context) {
+    public Long save(Pack model, Context context) {
         dbHelper = new DBHelper(context);
         SQLiteDatabase database;
         try {
@@ -31,9 +33,10 @@ public class PacksRepositoryJdbcImpl extends Application implements PacksReposit
             throw mSQLException;
         }
         ContentValues contentValues = new ContentValues();
-        contentValues.put (dbHelper.COLUMN_PACK_NAME, model.getName());
-        database.insert (dbHelper.TABLE_PACK, null, contentValues);
+        contentValues.put(dbHelper.COLUMN_PACK_NAME, model.getName());
+        Long id = database.insert(dbHelper.TABLE_PACK, null, contentValues);
         database.close();
+        return id;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class PacksRepositoryJdbcImpl extends Application implements PacksReposit
         }
         ContentValues contentValues = new ContentValues();
         contentValues.put(dbHelper.COLUMN_PACK_NAME, model.getName());
-        database.update(dbHelper.TABLE_PACK, contentValues," " + dbHelper.COLUMN_ID + " = " + model.getId(),
+        database.update(dbHelper.TABLE_PACK, contentValues, " " + dbHelper.COLUMN_ID + " = " + model.getId(),
                 null);
         database.close();
     }
@@ -61,7 +64,7 @@ public class PacksRepositoryJdbcImpl extends Application implements PacksReposit
         } catch (SQLException mSQLException) {
             throw mSQLException;
         }
-        database.delete(dbHelper.TABLE_PACK," " + dbHelper.COLUMN_ID + " = " + id, null);
+        database.delete(dbHelper.TABLE_PACK, " " + dbHelper.COLUMN_ID + " = " + id, null);
     }
 
     @Override
@@ -73,11 +76,15 @@ public class PacksRepositoryJdbcImpl extends Application implements PacksReposit
         } catch (SQLException mSQLException) {
             throw mSQLException;
         }
-        Cursor cursor = database.query(dbHelper.TABLE_PACK, null, dbHelper.COLUMN_ID + " = "  + id, null, null, null, null);
-        if(!cursor.isNull(1)) {
-            return new Pack(cursor.getInt(1),cursor.getString(2));
+        Cursor cursor = database.query(dbHelper.TABLE_PACK, null,
+                dbHelper.COLUMN_ID + " = " + id,
+                null, null, null, null);
+        Pack pack = null;
+        while (cursor.moveToNext()) {
+            pack = new Pack(cursor.getLong(0), cursor.getString(1));
         }
-        return new Pack();
+
+        return pack;
     }
 
     @Override
@@ -91,10 +98,30 @@ public class PacksRepositoryJdbcImpl extends Application implements PacksReposit
         }
         Cursor cursor = database.query(dbHelper.TABLE_PACK, null, null, null, null, null, null);
         ArrayList<Pack> list = new ArrayList<>();
-        while(cursor.moveToNext()) {
-            Pack pack = new Pack(cursor.getInt(0),cursor.getString(1));
+        while (cursor.moveToNext()) {
+            Pack pack = new Pack(cursor.getLong(0), cursor.getString(1));
             list.add(pack);
         }
         return list;
+    }
+
+    @Override
+    public Pack findByName(String name, Context context) {
+        dbHelper = new DBHelper(context);
+        SQLiteDatabase database;
+        try {
+            database = dbHelper.getWritableDatabase();
+        } catch (SQLException mSQLException) {
+            throw mSQLException;
+        }
+        Cursor cursor = database.query(dbHelper.TABLE_PACK, null,
+                dbHelper.COLUMN_PACK_NAME + " = '" + name+"'",
+                null, null, null, null);
+        Pack pack = null;
+        while (cursor.moveToNext()) {
+            pack = new Pack(cursor.getLong(0), cursor.getString(1));
+        }
+
+        return pack;
     }
 }

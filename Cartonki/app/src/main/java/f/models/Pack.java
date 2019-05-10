@@ -3,19 +3,17 @@ package f.models;
 import java.util.ArrayList;
 
 public class Pack {
-    private int id;
+    private Long id;
     private String name;
     private ArrayList<Card> cards = new ArrayList<>();    //TODO: Set for random access
 
-    public Pack() {
-    }
 
-    public Pack(int id, String name) {
+    public Pack(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Pack(int id) {
+    public Pack(Long id) {
         this.id = id;
     }
 
@@ -31,16 +29,16 @@ public class Pack {
         this.name = name;
     }
 
-    public Pack(int id, ArrayList<Card> cards) {
+    public Pack(Long id, ArrayList<Card> cards) {
         this.id = id;
         this.cards = cards;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
