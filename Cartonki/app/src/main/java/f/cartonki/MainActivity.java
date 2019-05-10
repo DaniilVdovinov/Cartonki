@@ -1,7 +1,11 @@
 package f.cartonki;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,20 +15,33 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 
+import f.models.Card;
+import f.models.Pack;
+import f.repositories.CardsRepositoryJdbcImpl;
+import f.repositories.PacksRepositoryJdbcImpl;
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
+import java.io.IOException;
+
+import f.repositories.DBHelper;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
+    TextView text;
+    DBHelper dbHelper;
+    SQLiteDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +52,7 @@ public class MainActivity extends AppCompatActivity
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -67,9 +84,43 @@ public class MainActivity extends AppCompatActivity
 
         SwipeMenuListView listView = (SwipeMenuListView) findViewById(R.id.listView_decks_activity);
 
+// можно так
+        text = findViewById(R.id.decs_count_words);
+//        String s = getFromDB();
+//        text.setText(s);
 
+        //а можно так
+        Log.w("Я чекаю бд", "Бла бла бла");
+        dbHelper = new DBHelper(this);
+        try {
+            dbHelper.updateDataBase();
+        } catch (IOException mIOException) {
+            throw new Error("Не удается обновить бд");
+        }
 
+        try {
+            database = dbHelper.getWritableDatabase();
+        } catch (SQLException mSQLException) {
+            throw mSQLException;
+        }
+//        int count = cursor.getCount();
+//        text.setText("a" + count);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Cursor cursor = database.rawQuery("select * from " + dbHelper.TABLE_CARD, null);
+        Log.d("Кол-во ", "" + cursor.getCount());
+//        PacksRepositoryJdbcImpl packsRepositoryJdbc = new PacksRepositoryJdbcImpl();
+//        Pack pack = new Pack("Матан");
+//        packsRepositoryJdbc.save(pack, this);
+        CardsRepositoryJdbcImpl cardsRepositoryJdbc = new CardsRepositoryJdbcImpl();
+        Card card = new Card(null, "nose", "нос", false, 2);
+        cardsRepositoryJdbc.save(card, this);
+        Log.d("Кол-во ", "" + cursor.getCount());
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -110,16 +161,18 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void displaySelectedScreen(int itemID){
+    private void displaySelectedScreen(int itemID) {
         try {
             if (itemID == R.id.to_main_page) {
                 startActivity(new Intent(this, MainActivity.class));
             } else if (itemID == R.id.to_decks) {
                 startActivity(new Intent(this, DecksActivity.class));
+            } else if (itemID == R.id.to_settings) {
+                startActivity(new Intent(this, SettingsActivity.class));
+            } else if (itemID == R.id.add_deck_main_activity_button) {
+                startActivity(new Intent(this, AddDeckChooseVariantActivity.class));
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             throw new IllegalStateException(e);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -137,5 +190,11 @@ public class MainActivity extends AppCompatActivity
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         toggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        displaySelectedScreen(id);
     }
 }
