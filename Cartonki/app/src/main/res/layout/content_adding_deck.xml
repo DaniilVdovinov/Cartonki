@@ -55,9 +55,10 @@
 
     <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:visibility="invisible"
             android:id="@+id/some_decks_layout_content_adding_deck"
+            app:layout_constraintBottom_toTopOf="@id/add_card_button"
             app:layout_constraintTop_toBottomOf="@id/deck_name_layout">
 
         <com.baoyz.swipemenulistview.SwipeMenuListView

@@ -1,37 +1,56 @@
 package f.cartonki;
 
+import android.app.Activity;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import android.widget.Toast;
+import org.apache.poi.*;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 
 import f.models.Card;
 import f.models.Pack;
 import f.repositories.CardsRepositoryJdbcImpl;
+import f.repositories.ExcelMapper;
 import f.repositories.PacksRepositoryJdbcImpl;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.eazegraph.lib.charts.PieChart;
 import org.eazegraph.lib.models.PieModel;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Iterator;
 
 import f.repositories.DBHelper;
 
@@ -44,6 +63,7 @@ public class MainActivity extends AppCompatActivity
     DBHelper dbHelper;
     SQLiteDatabase database;
     Button addDeckChooseVariant;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +136,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-
+//        startSearch();
+//        readFileSD();
+//        PacksRepositoryJdbcImpl packsRepositoryJdbc = new PacksRepositoryJdbcImpl();
+//        try {
+//            ExcelMapper excelMapper = new ExcelMapper(new File("/storage/sdcard1/words.xlsx"),packsRepositoryJdbc.save(new Pack("English"), MainActivity.this));
+//            Log.d("Список",excelMapper.getCardsAsList().size()+"");
+//        } catch (IOException e) {
+//            throw new IllegalStateException(e);
+//        }
         CardsRepositoryJdbcImpl cardsRepositoryJdbc = new CardsRepositoryJdbcImpl();
 //        Card card = cardsRepositoryJdbc.findNewCard(2L,this);
 //        Log.d("Кол-во записей ",cardsRepositoryJdbc.findAllInPack(2L, this).size()+"");
@@ -131,6 +159,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -140,6 +169,7 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

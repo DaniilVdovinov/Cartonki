@@ -1,14 +1,17 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "f.cartonki"
-        minSdkVersion 15
+        minSdkVersion 26
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -16,6 +19,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/validation.xml'
+    }
+
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
@@ -41,9 +53,11 @@ dependencies {
     })
     implementation 'org.jetbrains:annotations:15.0'
 
-    implementation files('libs/poi-4.1.0.jar')
-    implementation files('libs/poi-ooxml-4.1.0.jar')
-    implementation files('libs/poi-ooxml-schemas-4.1.0.jar')
+//    implementation files('libs/poi-4.1.0.jar')
+    implementation files('libs/poi-3.12.jar')
+    implementation files('libs/poi-ooxml-schemas-3.12-20150511-a.jar')
+//    implementation files('libs/poi-ooxml-4.1.0.jar')
+//    implementation files('libs/poi-ooxml-schemas-4.1.0.jar')
     implementation files('libs/activation-1.1.1.jar')
     implementation files('libs/commons-compress-1.18.jar')
     implementation files('libs/commons-logging-1.2.jar')
@@ -54,6 +68,7 @@ dependencies {
     implementation files('libs/junit-4.12.jar')
     implementation files('libs/log4j-1.2.17.jar')
     implementation files('libs/curvesapi-1.06.jar')
-    implementation files('libs/poi-examples-4.1.0.jar')
-    implementation files('libs/poi-excelant-4.1.0.jar')
+}
+repositories {
+    mavenCentral()
 }
